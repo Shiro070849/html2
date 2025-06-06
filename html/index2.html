@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dynamic Input with Delete</title>
+</head>
+<body>
+
+  <!-- พื้นที่เก็บ input ต่าง ๆ ที่จะเพิ่มแบบไดนามิก -->
+  <div id="input-container"></div>
+
+  <!-- ปุ่มเพิ่ม input -->
+  <button onclick="addInput()">Add Input</button>
+
+  <!-- ปุ่มแสดงค่าทั้งหมดใน input -->
+  <button onclick="getValues()">Get Values</button>
+
+  <script>
+    // ตัวแปรนับจำนวน input เพื่อให้ ID ไม่ซ้ำกัน
+    let inputCount = 0;
+
+    // ฟังก์ชันสำหรับเพิ่ม input ใหม่
+    function addInput() {
+      inputCount++; // เพิ่มลำดับของ input
+
+      // สร้าง div wrapper สำหรับห่อ input + label + ปุ่มลบ
+      const wrapper = document.createElement("div");
+      wrapper.id = "wrapper-" + inputCount;
+
+      // สร้าง label สำหรับ input
+      const label = document.createElement("label");
+      label.htmlFor = "input-" + inputCount;
+      label.innerText = `Input ${inputCount}: `;
+
+      // สร้าง input ชนิด text
+      const input = document.createElement("input");
+      input.type = "text";
+      input.id = "input-" + inputCount;
+
+      // สร้างปุ่มลบ input นี้
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerText = "Delete";
+      deleteBtn.onclick = function () {
+        // ลบ wrapper (รวมทั้ง label, input, ปุ่มลบ)
+        wrapper.remove();
+      };
+
+      // นำ label, input, ปุ่มลบ ใส่ใน wrapper
+      wrapper.appendChild(label);
+      wrapper.appendChild(input);
+      wrapper.appendChild(deleteBtn);
+
+      // แสดงผล wrapper บนหน้าเว็บภายใน input-container
+      document.getElementById("input-container").appendChild(wrapper);
+    }
+
+    // ฟังก์ชันดึงค่าทุก input ไปแสดงใน console
+    function getValues() {
+      // เลือก input ทั้งหมดที่อยู่ใน input-container และเป็นชนิด text
+      const inputs = document.querySelectorAll("#input-container input[type='text']");
+
+      // วนลูป input แต่ละตัวแล้วแสดง id และค่าที่พิมพ์ไว้
+      inputs.forEach(input => {
+        console.log(`${input.id}: ${input.value}`);
+      });
+    }
+  </script>
+
+</body>
+</html>
